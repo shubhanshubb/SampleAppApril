@@ -45,10 +45,7 @@ const AppNavigator = () => {
           component={MovieDetail}
           options={{
             headerShown: false,
-            gestureEnabled: Platform.OS === "ios" ? true : false,
-            animationEnabled: true,
-            presentation: Platform.OS === "ios" ? "modal" : "none",
-            cardStyle: { backgroundColor: "rgba(0,0,0,0.1)" },
+            gestureEnabled: true,
           }}
         />
       </Stack.Navigator>

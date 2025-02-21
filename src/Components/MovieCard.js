@@ -29,7 +29,6 @@ const MovieCard = ({item}) => {
   };
 
   const handleMoview = item => {
-    // console.log(item, 'item');
     navigation.navigate('MovieDetail', {movieId: item?.id});
   };
 

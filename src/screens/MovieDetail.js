@@ -3,15 +3,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   Image,
   ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import MIcons from 'react-native-vector-icons/MaterialIcons';
 import {getMovieDetails} from '../api/tmdb';
 import AIcon from 'react-native-vector-icons/AntDesign';
+import TopBackButtonBar from '../constant/TopBackButtonBar';
 
 const MovieDetail = () => {
   const navigation = useNavigation();
@@ -43,12 +42,7 @@ const MovieDetail = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableWithoutFeedback onPress={handleBack}>
-          <MIcons name="chevron-left" size={30} color="black" />
-        </TouchableWithoutFeedback>
-        <Text style={styles.headerTitle}>Movie Detail</Text>
-      </View>
+      <TopBackButtonBar headingTitle={'Movie Detail'} handleBack={handleBack} />
       {loading ? (
         <ActivityIndicator
           size="large"
@@ -56,7 +50,9 @@ const MovieDetail = () => {
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
         />
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView
+          contentContainerStyle={styles.scrollViewContent}
+          showsVerticalScrollIndicator={false}>
           <Image
             source={{
               uri: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
@@ -72,10 +68,31 @@ const MovieDetail = () => {
             <Text style={styles.itemNormal}>
               Average <AIcon name="star" size={20} color="orange" />:{' '}
             </Text>
-            <Text style={styles.itemBold}>{movieDetails.vote_average}</Text>
+            <Text style={styles.itemBold}>
+              {movieDetails.vote_average !== undefined
+                ? movieDetails.vote_average.toFixed(1)
+                : 'N/A'}
+            </Text>
           </View>
           <View style={styles.itemRow}>
-            <Text style={styles.itemBold}>{movieDetails.overview}</Text>
+            <Text style={styles.itemNormal}>Country: </Text>
+            <Text style={styles.itemBold}>{movieDetails.origin_country}</Text>
+          </View>
+          <View style={styles.itemRow}>
+            <Text style={styles.itemNormal}>Tagline: </Text>
+            <Text style={styles.itemItalic}>{movieDetails.tagline}</Text>
+          </View>
+          <View style={styles.itemColumn}>
+            <Text style={styles.itemNormal}>Produced By: </Text>
+            <Text style={styles.itemBold}>
+              {movieDetails.production_companies
+                ?.map(company => company.name)
+                .join(', ')}
+            </Text>
+          </View>
+          <View style={styles.itemColumn}>
+            <Text style={styles.itemNormal}>Overview: </Text>
+            <Text style={styles.overviewBold}>{movieDetails.overview}</Text>
           </View>
         </ScrollView>
       )}
@@ -87,33 +104,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 8,
+    marginBottom: 20,
   },
   scrollViewContent: {
-    padding: 16,
+    paddingTop: 16,
+    paddingHorizontal: 24,
+    paddingBottom: 50,
   },
   poster: {
     width: '100%',
-    height: 400,
+    height: 500,
     resizeMode: 'cover',
-    borderRadius: 12,
+    borderRadius: 2,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginVertical: 8,
+    marginVertical: 16,
   },
   itemRow: {
     flexDirection: 'row',
+    marginVertical: 4,
+  },
+  itemColumn: {
     marginVertical: 4,
   },
   itemNormal: {
@@ -123,11 +136,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  overviewBold: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'justify',
+  },
+  itemItalic: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    width: '90%',
   },
 });
 
