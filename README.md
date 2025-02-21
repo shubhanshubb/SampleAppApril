@@ -1,97 +1,130 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Movie Browser App
 
-# Getting Started
+Overview
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+This is a React Native application that allows users to browse movies from TMDB (The Movie Database) using the provided APIs. The app features navigation, API integration, and a user-friendly UI to display movie details.
 
-## Step 1: Start Metro
+Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Browse movies categorized as Now Playing, Popular, Top Rated, and Upcoming.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+View movie details including poster, title, release date, and average rating.
 
-```sh
-# Using npm
-npm start
+Tabbed navigation for easy category switching.
 
-# OR using Yarn
-yarn start
-```
+Custom user context for state management.
 
-## Step 2: Build and run your app
+Prerequisites
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Before running the project, ensure you have the following installed:
 
-### Android
+Node.js (latest LTS version recommended)
 
-```sh
-# Using npm
-npm run android
+React Native CLI or Expo
 
-# OR using Yarn
-yarn android
-```
+Git (for version control)
 
-### iOS
+Setup Instructions
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+1. Clone the Repository
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+git clone <repository-url>
+cd MovieBrowserApp
 
-```sh
-bundle install
-```
+2. Install Dependencies
 
-Then, and every time you update your native dependencies, run:
+npm install
 
-```sh
-bundle exec pod install
-```
+3. Set Up TMDB API
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Create an account at TMDB Developer.
 
-```sh
-# Using npm
-npm run ios
+Get your API key and add it to src/api/tmdbApi.js.
 
-# OR using Yarn
-yarn ios
-```
+4. Run the Application
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+For iOS (Mac users only):
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+npx react-native run-ios
 
-## Step 3: Modify your app
+For Android:
 
-Now that you have successfully run the app, let's make changes!
+npx react-native run-android
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+Dependencies
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+The project uses the following dependencies:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+{
+  "@react-navigation/bottom-tabs": "^7.2.0",
+  "@react-navigation/native": "^7.0.14",
+  "@react-navigation/stack": "^7.1.1",
+  "axios": "^1.7.9",
+  "react": "18.3.1",
+  "react-native": "0.77.0",
+  "react-native-gesture-handler": "^2.24.0",
+  "react-native-reanimated": "^3.16.7",
+  "react-native-safe-area-context": "^5.2.0",
+  "react-native-screens": "^4.8.0",
+  "react-native-vector-icons": "^10.2.0"
+}
 
-## Congratulations! :tada:
+Project Structure
 
-You've successfully run and modified your React Native App. :partying_face:
+MovieBrowserApp/
+│── src/
+│   ├── api/
+│   │   ├── tmdbApi.js  # Handles API requests
+│   ├── navigation/
+│   │   ├── AppNavigator.js  # Manages navigation
+│   │   ├── BottomTab.js  # Manages bottom navigation
+│   ├── screens/
+│   │   ├── HomeScreen.js  # Displays movie categories
+│   │   ├── DetailsScreen.js  # Displays movie details
+│   ├── bottomTabs/
+│   │   ├── Play.js  # Displays current movie categories
+│   │   ├── Popular.js  # Displays popular movie details
+│   │   ├── Rated.js  # Displays rated movie categories
+│   │   ├── Upcoming.js  # Displays upcoming movie details
+│   ├── Components/
+│   │   ├── MovieCard.js  # UI component for movies
+│── App.js  # Entry point
+│── UserContext.js  # User state management
+│── Splash.js  # Splash Screen
+│── package.json  # Project dependencies
 
-### Now what?
+App.js File
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+import React from 'react';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator';
+import UserProvider from './UserContext';
 
-# Troubleshooting
+const App = () => {
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: 'white',
+    },
+  };
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+  return (
+    <NavigationContainer theme={MyTheme}>
+      <UserProvider>
+        <AppNavigator />
+      </UserProvider>
+    </NavigationContainer>
+  );
+};
 
-# Learn More
+export default App;
 
-To learn more about React Native, take a look at the following resources:
+Contribution
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Feel free to fork the repository and contribute! Submit a pull request with any improvements.
+
+License
+
+This project is licensed under the MIT License.
+
