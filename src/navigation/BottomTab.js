@@ -42,7 +42,7 @@ const BottomTab = () => (
           {route.name}
         </Text>
       ),
-      tabBarStyle: {backgroundColor: '#09030E', height: 75},
+      tabBarStyle: {backgroundColor: '#09030E', height: 80},
       headerShown: false,
       tabBarHideOnKeyboard: true,
       tabBarActiveTintColor: 'black',
