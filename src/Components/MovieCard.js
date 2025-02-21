@@ -1,9 +1,16 @@
-import {View, Text, Image, StyleSheet, TouchableOpacity, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import React from 'react';
 import AIcon from 'react-native-vector-icons/AntDesign';
 import MIcons from 'react-native-vector-icons/MaterialIcons';
 import {useAuthData} from '../../UserContext';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const MovieCard = ({item}) => {
   const {setFavourites, favourites} = useAuthData();
@@ -11,21 +18,23 @@ const MovieCard = ({item}) => {
 
   const isFavourite = favourites?.some(fav => fav.id === item.id);
 
-  const handleFavourite = (item) => {
+  const handleFavourite = item => {
     if (isFavourite) {
-      setFavourites(prevFavourites => prevFavourites.filter(fav => fav.id !== item.id));
+      setFavourites(prevFavourites =>
+        prevFavourites.filter(fav => fav.id !== item.id),
+      );
     } else {
       setFavourites(prevFavourites => [...prevFavourites, item]);
     }
   };
 
-  const handleMoview = (item) => {
+  const handleMoview = item => {
     // console.log(item, 'item');
     navigation.navigate('MovieDetail', {movieId: item?.id});
-  }
+  };
 
   return (
-    <Pressable style={styles.movieItem} onPress={() =>handleMoview(item)}>
+    <Pressable style={styles.movieItem} onPress={() => handleMoview(item)}>
       <Image
         source={{uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`}}
         style={styles.poster}
@@ -40,10 +49,16 @@ const MovieCard = ({item}) => {
         </Text>
         <Text style={styles.rating}>
           <AIcon name="star" size={20} color="orange" /> Rating:{' '}
-          {item.vote_average}
+          {(item.vote_average)?.toFixed(1)}
         </Text>
-        <TouchableOpacity style={styles.favouriteButton} onPress={() => handleFavourite(item)}>
-          <MIcons name={isFavourite ? "favorite" : "favorite-border"} size={30} color={isFavourite ? "black" : "red"} />
+        <TouchableOpacity
+          style={styles.favouriteButton}
+          onPress={() => handleFavourite(item)}>
+          <MIcons
+            name={isFavourite ? 'favorite' : 'favorite-border'}
+            size={30}
+            color={isFavourite ? 'black' : 'red'}
+          />
         </TouchableOpacity>
       </View>
     </Pressable>
