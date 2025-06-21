@@ -1,15 +1,17 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
+import { useAuthData } from '../UserContext';
 
 const Splash = ({navigation}) => {
+  const {loggedInUser} = useAuthData();
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('BottomTab');
+      navigation.navigate(loggedInUser ? "Todo" : 'Login');
     }, 1000);
   });
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Movie Browse</Text>
+      <Text style={styles.header}>Smaple Project</Text>
       <Text style={styles.header}>Project by</Text>
       <Text style={styles.name}>Shubhanshu Barnwal</Text>
     </View>

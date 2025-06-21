@@ -6,6 +6,8 @@ import BottomTab from './BottomTab';
 import Splash from '../Splash';
 import Favourite from '../screens/Favourite';
 import MovieDetail from '../screens/MovieDetail';
+import Login from '../screens/Login';
+import Todo from '../screens/Todo';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +25,7 @@ const AppNavigator = () => {
           component={Splash}
           options={{headerShown: false, gestureEnabled: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="BottomTab"
           component={BottomTab}
           options={{
@@ -43,6 +45,22 @@ const AppNavigator = () => {
         <Stack.Screen
           name="MovieDetail"
           component={MovieDetail}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        /> */}
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="Todo"
+          component={Todo}
           options={{
             headerShown: false,
             gestureEnabled: true,

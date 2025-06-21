@@ -1,11 +1,15 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import AppNavigator from './src/navigation/AppNavigator'
+import UserProvider from './UserContext'
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <NavigationContainer>
+      <UserProvider>
+      <AppNavigator />
+      </UserProvider>
+    </NavigationContainer>
   )
 }
 
